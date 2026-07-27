@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.opt.showtabline = 0
+vim.opt.cmdheight = 1
 vim.opt.undofile = true
 vim.opt.number = true
 vim.opt.splitright = true
@@ -105,6 +106,12 @@ vim.filetype.add({
 })
 
 -- Plugin configuration
+require("noice").setup({
+	presets = {
+		command_palette = true,
+	},
+})
+
 require("blink.cmp").setup({
 	keymap = {
 		preset = "default",

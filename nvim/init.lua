@@ -1,3 +1,6 @@
+vim.g.neovide_cursor_antialiasing = true
+vim.g.neovide_cursor_vfx_mode = "pixiedust"
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 

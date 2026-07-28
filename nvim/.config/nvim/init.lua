@@ -239,12 +239,21 @@ require("trouble").setup({
 	},
 })
 
-require("mini.files").setup({
+local MiniFiles = require("mini.files")
+
+MiniFiles.setup({
 	windows = {
 		preview = true,
 		width_focus = 30,
 		width_preview = 50,
 	},
+})
+
+vim.api.nvim_create_autocmd("User", {
+	pattern = "MiniFilesBufferCreate",
+	callback = function(args)
+		vim.keymap.set("n", "<CR>", MiniFiles.go_in, { buffer = args.data.buf_id })
+	end,
 })
 
 require("treesitter-context").setup({

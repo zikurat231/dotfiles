@@ -148,6 +148,10 @@ export FZF_CTRL_R_OPTS='
   --header="Enter: insert command | Ctrl-R: toggle sorting"
 '
 
+# Keep directory search fast and useful, especially when started from $HOME.
+# fd does not include hidden paths unless --hidden is explicitly enabled.
+export FZF_ALT_C_COMMAND='fd --type d --color=never --exclude Library --exclude node_modules --exclude .git --exclude cache --exclude caches'
+
 # Load fzf after the other plugins so they cannot overwrite Ctrl-R.
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)

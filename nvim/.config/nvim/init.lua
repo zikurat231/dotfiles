@@ -82,7 +82,11 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.lsp.config("clangd", {
 	cmd = { "clangd", "--background-index", "--clang-tidy" },
 })
-vim.lsp.enable("clangd")
+vim.lsp.enable({
+	"clangd",
+	"gopls",
+	"basedpyright",
+})
 
 vim.diagnostic.config({
 	virtual_text = true, -- Show diagnostics inline.

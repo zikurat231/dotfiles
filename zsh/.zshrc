@@ -9,6 +9,7 @@ unsetopt BEEP
 # Oh My Zsh
 # -----------------------------------------------------------------------------
 
+export PATH="$(go env GOPATH)/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 

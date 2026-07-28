@@ -252,7 +252,12 @@ MiniFiles.setup({
 vim.api.nvim_create_autocmd("User", {
 	pattern = "MiniFilesBufferCreate",
 	callback = function(args)
-		vim.keymap.set("n", "<CR>", MiniFiles.go_in, { buffer = args.data.buf_id })
+		local open_entry = function()
+			MiniFiles.go_in({ close_on_file = true })
+		end
+
+		vim.keymap.set("n", "l", open_entry, { buffer = args.data.buf_id })
+		vim.keymap.set("n", "<CR>", open_entry, { buffer = args.data.buf_id })
 	end,
 })
 

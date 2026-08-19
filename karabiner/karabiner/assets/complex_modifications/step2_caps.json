@@ -1,0 +1,51 @@
+{
+  "title": "Шаг 2: Умный Caps Lock (с Vim-стрелками)",
+  "rules": [
+    {
+      "description": "Caps Lock: Esc / Удержание: D=Backspace, HJKL=Стрелки",
+      "manipulators": [
+        {
+          "type": "basic",
+          "conditions": [ { "type": "variable_if", "name": "caps_layer", "value": 1 } ],
+          "from": { "key_code": "d", "modifiers": { "optional": ["any"] } },
+          "to": [ { "key_code": "delete_or_backspace" } ]
+        },
+        {
+          "type": "basic",
+          "conditions": [ { "type": "variable_if", "name": "caps_layer", "value": 1 } ],
+          "from": { "key_code": "h", "modifiers": { "optional": ["any"] } },
+          "to": [ { "key_code": "left_arrow" } ]
+        },
+        {
+          "type": "basic",
+          "conditions": [ { "type": "variable_if", "name": "caps_layer", "value": 1 } ],
+          "from": { "key_code": "j", "modifiers": { "optional": ["any"] } },
+          "to": [ { "key_code": "down_arrow" } ]
+        },
+        {
+          "type": "basic",
+          "conditions": [ { "type": "variable_if", "name": "caps_layer", "value": 1 } ],
+          "from": { "key_code": "k", "modifiers": { "optional": ["any"] } },
+          "to": [ { "key_code": "up_arrow" } ]
+        },
+        {
+          "type": "basic",
+          "conditions": [ { "type": "variable_if", "name": "caps_layer", "value": 1 } ],
+          "from": { "key_code": "l", "modifiers": { "optional": ["any"] } },
+          "to": [ { "key_code": "right_arrow" } ]
+        },
+        {
+          "type": "basic",
+          "conditions": [ { "type": "variable_if", "name": "caps_layer", "value": 1 } ],
+          "from": { "key_code": "g", "modifiers": { "optional": ["any"] } },
+          "to": [ { "key_code": "g" , "modifiers": ["left_control"] } ] }, {
+          "type": "basic",
+          "from": { "key_code": "caps_lock", "modifiers": { "optional": ["any"] } },
+          "to": [ { "set_variable": { "name": "caps_layer", "value": 1 } } ],
+          "to_after_key_up": [ { "set_variable": { "name": "caps_layer", "value": 0 } } ],
+          "to_if_alone": [ { "key_code": "escape" } ]
+        }
+      ]
+    }
+  ]
+}

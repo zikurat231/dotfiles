@@ -1,5 +1,8 @@
-vim.g.neovide_cursor_antialiasing = true
-vim.g.neovide_cursor_vfx_mode = "pixiedust"
+local is_neovide = vim.g.neovide == true
+
+if is_neovide then
+	require("config.neovide")
+end
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -149,6 +152,14 @@ require("blink.cmp").setup({
 	},
 	fuzzy = {
 		implementation = "lua",
+	},
+})
+
+require("nightfox").setup({
+	options = {
+		-- Kitty supplies the terminal background. Neovide needs a real theme background
+		-- and makes that background translucent through its own opacity setting.
+		transparent = not is_neovide,
 	},
 })
 

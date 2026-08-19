@@ -8,6 +8,7 @@
 - ✏️ `nvim` — Neovim
 - 🖥️ `tmux` — terminal multiplexer
 - 🐱 `kitty` — terminal emulator
+- ⌨️ `neru` — keyboard-driven mouse navigation
 - ⌨️ `kanata` — keyboard layers
 - 🪟 `omarchy` — keybindings and input settings
 
@@ -60,7 +61,7 @@ cd ~/dotfiles
 Create symlinks for the packages you want to use:
 
 ```sh
-stow --target="$HOME" nvim kitty tmux zsh
+stow --target="$HOME" nvim kitty neru tmux zsh
 ```
 
 Linux-specific packages can be linked in the same way:
@@ -75,7 +76,7 @@ file first, then run the command again.
 To update existing symlinks after changing the package layout:
 
 ```sh
-stow --restow --target="$HOME" nvim kitty tmux zsh
+stow --restow --target="$HOME" nvim kitty neru tmux zsh
 ```
 
 To remove symlinks created for a package:
@@ -83,3 +84,19 @@ To remove symlinks created for a package:
 ```sh
 stow --delete --target="$HOME" nvim
 ```
+
+## Neru
+
+The Neru config uses `F18` for recursive grid, `F19` for hints with a pending
+left click, and `F20` for scroll mode. `Cmd+Shift+G` opens the regular grid.
+
+Validate and apply config changes with:
+
+```sh
+neru config validate
+neru config reload
+```
+
+On the first launch, grant Neru the macOS permissions it requests. See the
+[Neru documentation](https://github.com/y3owk1n/neru) for other installation
+methods and platform-specific setup.

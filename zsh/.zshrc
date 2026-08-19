@@ -18,7 +18,7 @@ unsetopt BEEP
 
 export PATH="$(go env GOPATH)/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="amuse"
 
 # Uncomment to enable case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -95,6 +95,7 @@ alias gs="git status"
 alias cl="clear"
 alias t="tree"
 alias nv="nvim"
+alias lz="lazygit"
 
 if [[ -f "$HOME/.local/share/omarchy/default/bash/aliases" ]]; then
   source "$HOME/.local/share/omarchy/default/bash/aliases"

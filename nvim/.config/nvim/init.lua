@@ -68,6 +68,7 @@ vim.pack.add({
 	{ src = "https://github.com/sindrets/diffview.nvim" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/tpope/vim-surround" },
+	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/windwp/nvim-autopairs" },
 })
 
@@ -280,6 +281,14 @@ require("conform").setup({
 		python = { "ruff_format" },
 		lua = { "stylua" },
 		go = { "goimports", "gofmt" },
+	},
+})
+
+require("toggleterm").setup({
+	open_mapping = [[<C-\>]],
+	direction = "float",
+	float_opts = {
+		border = "curved",
 	},
 })
 

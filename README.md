@@ -10,19 +10,20 @@
 - 🐱 `kitty` — terminal emulator
 - ⌨️ `neru` — keyboard-driven mouse navigation
 - ⌨️ `kanata` — keyboard layers
+- ⌨️ `karabiner` — keyboard customization on macOS
 - 🪟 `omarchy` — keybindings and input settings
 
 ## How it works
 
 This repository is structured for use with
 [GNU Stow](https://www.gnu.org/software/stow/). Each top-level directory is a
-separate Stow package, and its contents mirror the target path relative to
-`$HOME`.
+separate Stow package. Packages containing application configs mirror
+`~/.config`; packages containing home-directory dotfiles mirror `$HOME`.
 
 For example, the file:
 
 ```text
-nvim/.config/nvim/init.lua
+nvim/nvim/init.lua
 ```
 
 is linked to:
@@ -58,16 +59,24 @@ git clone <repository-url> ~/dotfiles
 cd ~/dotfiles
 ```
 
-Create symlinks for the packages you want to use:
+Create `~/.config`, then link application configs with `~/.config` as the Stow
+target:
 
 ```sh
-stow --target="$HOME" nvim kitty neru tmux zsh
+mkdir -p ~/.config
+stow --target ~/.config nvim kitty neru karabiner
 ```
 
-Linux-specific packages can be linked in the same way:
+Linux-specific application configs use the same target:
 
 ```sh
-stow --target="$HOME" kanata omarchy
+stow --target ~/.config kanata omarchy
+```
+
+Link dotfiles that belong directly in the home directory separately:
+
+```sh
+stow --target "$HOME" tmux zsh powerlevel10k
 ```
 
 Stow will stop if a target file already exists. Move or back up the existing
@@ -76,13 +85,14 @@ file first, then run the command again.
 To update existing symlinks after changing the package layout:
 
 ```sh
-stow --restow --target="$HOME" nvim kitty neru tmux zsh
+stow --restow --target ~/.config nvim kitty neru karabiner
+stow --restow --target "$HOME" tmux zsh powerlevel10k
 ```
 
 To remove symlinks created for a package:
 
 ```sh
-stow --delete --target="$HOME" nvim
+stow --delete --target ~/.config nvim
 ```
 
 ## Neru

@@ -64,7 +64,10 @@ ZSH_THEME="robbyrussell"
 # Override the default Oh My Zsh custom directory.
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-plugins=(git)
+plugins=(
+    git
+    fzf-tab
+)
 
 source "$ZSH/oh-my-zsh.sh"
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"

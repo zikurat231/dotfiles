@@ -11,6 +11,7 @@
 - ⌨️ `neru` — keyboard-driven mouse navigation
 - ⌨️ `kanata` — keyboard layers
 - ⌨️ `karabiner` — keyboard customization on macOS
+- 🖱️ `linearmouse` — shared mouse behavior on macOS
 - 🪟 `omarchy` — keybindings and input settings
 
 ## How it works
@@ -64,7 +65,7 @@ target:
 
 ```sh
 mkdir -p ~/.config
-stow --target ~/.config nvim kitty neru karabiner
+stow --target ~/.config nvim kitty neru karabiner linearmouse
 ```
 
 Linux-specific application configs use the same target:
@@ -85,7 +86,7 @@ file first, then run the command again.
 To update existing symlinks after changing the package layout:
 
 ```sh
-stow --restow --target ~/.config nvim kitty neru karabiner
+stow --restow --target ~/.config nvim kitty neru karabiner linearmouse
 stow --restow --target "$HOME" tmux zsh powerlevel10k
 ```
 
@@ -110,3 +111,14 @@ neru config reload
 On the first launch, grant Neru the macOS permissions it requests. See the
 [Neru documentation](https://github.com/y3owk1n/neru) for other installation
 methods and platform-specific setup.
+
+## LinearMouse
+
+The LinearMouse config applies the same pointer and scrolling behavior to every
+device in the `mouse` category, while leaving trackpads unaffected.
+
+Install the package on macOS with:
+
+```sh
+stow --target ~/.config linearmouse
+```

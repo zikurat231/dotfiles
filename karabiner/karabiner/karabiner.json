@@ -4,28 +4,46 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "App launcher: Right Option + / + key",
+                        "description": "App launcher: Caps Lock + O, then app key (2-second timeout)",
                         "manipulators": [
                             {
-                                "from": {
-                                    "key_code": "slash",
-                                    "modifiers": {
-                                        "mandatory": ["right_option"],
-                                        "optional": ["any"]
+                                "conditions": [
+                                    {
+                                        "name": "caps_layer",
+                                        "type": "variable_if",
+                                        "value": 1
                                     }
+                                ],
+                                "from": {
+                                    "key_code": "o",
+                                    "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [
                                     {
                                         "set_variable": {
-                                            "name": "app_launcher",
-                                            "value": 1
+                                            "expression": "system.now.milliseconds + 2000",
+                                            "name": "app_launcher_expiration"
                                         }
                                     }
                                 ],
-                                "to_after_key_up": [
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "expression": "app_launcher_expiration > system.now.milliseconds",
+                                        "type": "expression_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "software_function": { "open_application": { "bundle_identifier": "ru.keepcoder.Telegram" } } },
                                     {
                                         "set_variable": {
-                                            "name": "app_launcher",
+                                            "name": "app_launcher_expiration",
                                             "value": 0
                                         }
                                     }
@@ -35,61 +53,132 @@
                             {
                                 "conditions": [
                                     {
-                                        "name": "app_launcher",
-                                        "type": "variable_if",
-                                        "value": 1
+                                        "expression": "app_launcher_expiration > system.now.milliseconds",
+                                        "type": "expression_if"
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "t",
+                                    "key_code": "f",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "software_function": { "open_application": { "bundle_identifier": "ru.keepcoder.Telegram" } } }],
+                                "to": [
+                                    { "software_function": { "open_application": { "bundle_identifier": "com.apple.finder" } } },
+                                    {
+                                        "set_variable": {
+                                            "name": "app_launcher_expiration",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
                                 "conditions": [
                                     {
-                                        "name": "app_launcher",
-                                        "type": "variable_if",
-                                        "value": 1
+                                        "expression": "app_launcher_expiration > system.now.milliseconds",
+                                        "type": "expression_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "m",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "software_function": { "open_application": { "bundle_identifier": "com.sublimemerge" } } },
+                                    {
+                                        "set_variable": {
+                                            "name": "app_launcher_expiration",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "expression": "app_launcher_expiration > system.now.milliseconds",
+                                        "type": "expression_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "k",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "software_function": { "open_application": { "bundle_identifier": "net.kovidgoyal.kitty" } } }],
+                                "to": [
+                                    { "software_function": { "open_application": { "bundle_identifier": "net.kovidgoyal.kitty" } } },
+                                    {
+                                        "set_variable": {
+                                            "name": "app_launcher_expiration",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
                                 "conditions": [
                                     {
-                                        "name": "app_launcher",
-                                        "type": "variable_if",
-                                        "value": 1
+                                        "expression": "app_launcher_expiration > system.now.milliseconds",
+                                        "type": "expression_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "s",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "software_function": { "open_application": { "bundle_identifier": "com.apple.Safari" } } }],
+                                "to": [
+                                    { "software_function": { "open_application": { "bundle_identifier": "com.apple.Safari" } } },
+                                    {
+                                        "set_variable": {
+                                            "name": "app_launcher_expiration",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
                                 "conditions": [
                                     {
-                                        "name": "app_launcher",
-                                        "type": "variable_if",
-                                        "value": 1
+                                        "expression": "app_launcher_expiration > system.now.milliseconds",
+                                        "type": "expression_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "o",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "software_function": { "open_application": { "bundle_identifier": "md.obsidian" } } }],
+                                "to": [
+                                    { "software_function": { "open_application": { "bundle_identifier": "md.obsidian" } } },
+                                    {
+                                        "set_variable": {
+                                            "name": "app_launcher_expiration",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "expression": "app_launcher_expiration > system.now.milliseconds",
+                                        "type": "expression_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "escape",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "app_launcher_expiration",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
@@ -212,7 +301,7 @@
                         ]
                     },
                     {
-                        "description": "Terminal baseline · Caps Lock: tap for Escape; hold for input source, Backspace, Neru, and HJKL",
+                        "description": "Terminal baseline · Caps Lock: tap for Escape; hold for app launcher, input source, Backspace, Neru, and HJKL",
                         "manipulators": [
                             {
                                 "conditions": [

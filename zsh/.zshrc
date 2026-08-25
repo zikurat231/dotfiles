@@ -72,6 +72,11 @@ plugins=(
 source "$ZSH/oh-my-zsh.sh"
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
+# Initialize zoxide after Oh My Zsh so shell completion is available.
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
 
 # -----------------------------------------------------------------------------
 # Environment
@@ -90,12 +95,14 @@ export EDITOR="nvim"
 # -----------------------------------------------------------------------------
 
 alias ll="ls -lah"
-alias l="ll"
+alias l="eza --color=always --long --git --icons=always --no-user --no-permissions --group-directories-first --sort=size"
+alias cd="z"
 alias gs="git status"
 alias cl="clear"
-alias t="tree"
+alias t="eza --tree"
 alias nv="nvim"
 alias lz="lazygit"
+alias cat="bat"
 
 if [[ -f "$HOME/.local/share/omarchy/default/bash/aliases" ]]; then
   source "$HOME/.local/share/omarchy/default/bash/aliases"

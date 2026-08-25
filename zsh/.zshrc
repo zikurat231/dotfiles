@@ -125,14 +125,14 @@ function _dotfiles_prompt_precmd() {
   fi
   DOTFILES_PROMPT_COMMAND_STARTED_AT=0
 
-  local left="%F{#565F89}╭─%f %F{#7AA2F7}%f %F{#C0CAF5}${directory//\%/%%}%f"
-  [[ -n $git_status ]] && left+=" %F{#9ECE6A}on ${git_status//\%/%%}%f"
+  local left="%F{#3B536B}╭─%f %F{#78BDF2}%f %F{#D8E6F0}${directory//\%/%%}%f"
+  [[ -n $git_status ]] && left+=" %F{#8AC7A7}on ${git_status//\%/%%}%f"
 
   local right=''
-  [[ -n $duration ]] && right+="%F{#E0AF68}${duration}%f  "
-  right+='%F{#BB9AF7}at %D{%H:%M}%f'
+  [[ -n $duration ]] && right+="%F{#D6C27A}${duration}%f  "
+  right+='%F{#78BDF2}at %D{%H:%M}%f'
 
-  PROMPT="${left}"$'\n''%F{#565F89}╰─%f %(?.%F{#7DCFFF}❯.%F{#F7768E}❯)%f '
+  PROMPT="${left}"$'\n''%F{#3B536B}╰─%f %(?.%F{#80CBC4}❯.%F{#E78484}❯)%f '
   RPROMPT=$right
 }
 

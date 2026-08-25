@@ -1634,8 +1634,8 @@
   ####################################[ time: current time ]####################################
   # Current time color.
   typeset -g POWERLEVEL9K_TIME_FOREGROUND=6
-  # Format for the current time: 09:51:02. See `man 3 strftime`.
-  typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S}'
+  # Format for the current time: 09:51. See `man 3 strftime`.
+  typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M}'
   # If set to true, time will update when you hit enter. This way prompts for the past
   # commands will contain the start times of their commands as opposed to the default
   # behavior where they contain the end times of their preceding commands.
@@ -1685,6 +1685,9 @@
   #   - same-dir: Trim down prompt when accepting a command line unless this is the first command
   #               typed after changing current working directory.
   typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=always
+
+  # Let Kitty reflow prompt lines correctly when terminal or tmux panes are resized.
+  typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
 
   # Instant prompt mode.
   #

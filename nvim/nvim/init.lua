@@ -44,7 +44,6 @@ vim.pack.add({
 	{ src = "https://github.com/folke/flash.nvim" },
 	{ src = "https://github.com/folke/noice.nvim" },
 	{ src = "https://github.com/folke/trouble.nvim" },
-	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/folke/which-key.nvim" },
 	{ src = "https://github.com/karb94/neoscroll.nvim" },
 	{ src = "https://github.com/kevinhwang91/nvim-bqf" },
@@ -76,7 +75,7 @@ vim.pack.add({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "cpp", "hpp", "c", "cc" }, -- Include common C and C++ extensions.
+	pattern = { "c", "cpp" },
 	callback = function()
 		vim.cmd("inoreabbrev <buffer> end std::endl;")
 	end,
@@ -86,11 +85,20 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.lsp.config("clangd", {
 	cmd = { "clangd", "--background-index", "--clang-tidy" },
 })
-vim.lsp.enable({
-	"clangd",
-	"gopls",
-	"basedpyright",
-})
+local language_servers = { "clangd" }
+local optional_language_servers = {
+	{ name = "gopls", executable = "gopls" },
+	{ name = "basedpyright", executable = "basedpyright-langserver" },
+	{ name = "protols", executable = "protols" },
+}
+
+for _, server in ipairs(optional_language_servers) do
+	if vim.fn.executable(server.executable) == 1 then
+		table.insert(language_servers, server.name)
+	end
+end
+
+vim.lsp.enable(language_servers)
 
 vim.diagnostic.config({
 	virtual_text = true, -- Show diagnostics inline.
@@ -98,11 +106,6 @@ vim.diagnostic.config({
 	signs = true, -- Show diagnostic signs.
 	update_in_insert = false, -- Do not update diagnostics while typing.
 	severity_sort = true, -- Show the most severe diagnostics first.
-})
-
-vim.lsp.config("protols", {
-	cmd = { vim.fn.expand("~/work/myDeal/protols") },
-	filetypes = { "proto" },
 })
 
 vim.filetype.add({
@@ -274,6 +277,32 @@ vim.api.nvim_create_autocmd("User", {
 
 		vim.keymap.set("n", "l", open_entry, { buffer = args.data.buf_id })
 		vim.keymap.set("n", "<CR>", open_entry, { buffer = args.data.buf_id })
+	end,
+})
+
+local treesitter_parsers = {
+	"bash",
+	"c",
+	"cpp",
+	"go",
+	"groovy",
+	"json",
+	"lua",
+	"markdown",
+	"markdown_inline",
+	"proto",
+	"python",
+	"regex",
+	"vim",
+	"vimdoc",
+}
+
+require("nvim-treesitter").install(treesitter_parsers)
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "c", "cpp", "go", "groovy", "json", "lua", "markdown", "proto", "python", "sh", "vim" },
+	callback = function(args)
+		pcall(vim.treesitter.start, args.buf)
 	end,
 })
 

@@ -96,6 +96,75 @@ To remove symlinks created for a package:
 stow --delete --target ~/.config nvim
 ```
 
+## Neovim setup on macOS
+
+The configuration requires Neovim 0.12 or newer. The primary setup targets C++.
+Install the editor, search tools, Clang tooling, and Tree-sitter build
+requirements before the first launch:
+
+```sh
+xcode-select --install
+
+brew install \
+  neovim ripgrep tree-sitter-cli \
+  llvm
+
+brew install --cask font-meslo-lg-nerd-font
+```
+
+Homebrew installs LLVM as a keg-only package. Make its commands available in
+the shell environment:
+
+```sh
+export PATH="$(brew --prefix llvm)/bin:$PATH"
+```
+
+Install other language servers and formatters only on machines that need them.
+For Go:
+
+```sh
+brew install go
+go install golang.org/x/tools/gopls@latest
+go install golang.org/x/tools/cmd/goimports@latest
+```
+
+For Python:
+
+```sh
+brew install basedpyright ruff
+```
+
+For Protocol Buffers:
+
+```sh
+brew install rust protobuf pkgconf
+cargo install protols
+export PATH="$HOME/.cargo/bin:$PATH"
+```
+
+Optional formatters for shell scripts and Lua can be installed separately:
+
+```sh
+brew install shfmt stylua
+```
+
+Verify that the tools used by the configuration are available:
+
+```sh
+nvim --version
+command -v rg tree-sitter clangd clang-format
+```
+
+For each optional language installed on the current machine, also verify its
+tools, for example with `command -v gopls`,
+`command -v basedpyright-langserver`, or `command -v protols`.
+
+The tracked `nvim-pack-lock.json` keeps plugin revisions identical between
+machines. On the first launch, `vim.pack` installs those revisions and
+`nvim-treesitter` installs the configured language parsers. Clangd is always
+enabled; Go, Python, and Protocol Buffers language servers are enabled only
+when their executables are available on `PATH`.
+
 ## macOS input-source shortcut
 
 The tmux prefix is `Control+Space`. On every new Mac, open:

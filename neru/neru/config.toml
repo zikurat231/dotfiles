@@ -46,7 +46,8 @@ text = "#E8EEFF"
 [hotkeys]
 "Primary+Shift+G" = "grid"
 "F18" = "recursive_grid"
-"F19" = "hints --action left_click"
+# "F19" = "hints --action left_click"
+"F19" = "grid"
 "F20" = "scroll"
 
 # Macros — named action sequences, reused from any binding.
@@ -180,10 +181,10 @@ generic_clickable_min_confidence = 0.5       # Minimum confidence for generic cl
 # See https://github.com/y3owk1n/neru/blob/main/docs/CONFIGURATION.md#grid
 [grid]
 enabled = true
-characters = "abcdefghijklmnpqrstuvwxyz"    # Primary grid labels
+characters = "asdfjkl"                      # Prefix every grid label with a home-row key
 sublayer_keys = "abcdefghijklmnpqrstuvwxyz" # Subgrid labels, first 9 used (empty = infer from characters)
-row_labels = ""                             # Custom row labels (empty = infer from characters)
-col_labels = ""                             # Custom column labels (empty = infer from characters)
+row_labels = "ertyuidfghjkcvbnm"            # Follow-up keys for index and middle fingers
+col_labels = "ertyuidfghjkcvbnm"            # Follow-up keys for index and middle fingers
 live_match_update = true                    # Highlight cells as you type
 hide_unmatched = true                       # Hide non-matching cells
 prewarm_enabled = true                      # Pre-compute grid on startup (~1.5MB RAM)
@@ -208,14 +209,15 @@ enable_gc = false                           # Periodic memory cleanup (adds CPU 
 font_size = 10
 font_family = ""
 border_width = 1
+background_color = { light = "#40EEF2FF", dark = "#400A1338" } # 25% opacity
 
 # Recursive grid mode (recommended)
 # See https://github.com/y3owk1n/neru/blob/main/docs/CONFIGURATION.md#recursive_grid
 [recursive_grid]
 enabled = true
-grid_cols = 2                               # Number of columns (>= 1)
-grid_rows = 2                               # Number of rows (>= 1)
-keys = "uijk"                               # Cell selection keys (must be grid_cols * grid_rows chars)
+grid_cols = 3                               # Number of columns (>= 1)
+grid_rows = 3                               # Number of rows (>= 1)
+keys = "uiojklm,."                          # Cell selection keys (must be grid_cols * grid_rows chars)
 min_size_width = 1                          # Stop subdividing below this width (px)
 min_size_height = 1                         # Stop subdividing below this height (px)
 max_depth = 7                               # Maximum recursion levels (1–20)

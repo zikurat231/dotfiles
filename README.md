@@ -96,6 +96,29 @@ To remove symlinks created for a package:
 stow --delete --target ~/.config nvim
 ```
 
+## macOS input-source shortcut
+
+The tmux prefix is `Control+Space`. On every new Mac, open:
+
+```text
+System Settings > Keyboard > Keyboard Shortcuts > Input Sources
+```
+
+Disable **Select the previous input source** (`Control+Space`) to keep that
+shortcut available to tmux.
+
+The same setting can be applied from the terminal using macOS symbolic-hotkey
+ID `60`:
+
+```sh
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 60 \
+  '{ enabled = 0; value = { parameters = (32, 49, 262144); type = standard; }; }'
+```
+
+Log out and back in, or restart macOS, after applying the terminal version.
+This numeric ID is an internal macOS representation, so the GUI method is
+preferable if a future macOS release changes its behaviour.
+
 ## Neru
 
 The Neru config uses `F18` for recursive grid, `F19` for hints with a pending

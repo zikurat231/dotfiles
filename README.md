@@ -77,7 +77,7 @@ stow --target ~/.config kanata omarchy
 Link dotfiles that belong directly in the home directory separately:
 
 ```sh
-stow --target "$HOME" tmux zsh powerlevel10k
+stow --target "$HOME" tmux zsh
 ```
 
 Stow will stop if a target file already exists. Move or back up the existing
@@ -87,7 +87,7 @@ To update existing symlinks after changing the package layout:
 
 ```sh
 stow --restow --target ~/.config nvim kitty neru karabiner linearmouse
-stow --restow --target "$HOME" tmux zsh powerlevel10k
+stow --restow --target "$HOME" tmux zsh
 ```
 
 To remove symlinks created for a package:

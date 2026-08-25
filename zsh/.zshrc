@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # -----------------------------------------------------------------------------
 # Shell options
 # -----------------------------------------------------------------------------
@@ -18,7 +11,8 @@ unsetopt BEEP
 
 export PATH="$(go env GOPATH)/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="amuse"
+# A native prompt is configured below, after Oh My Zsh is loaded.
+ZSH_THEME=""
 
 # Uncomment to enable case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -70,12 +64,82 @@ plugins=(
 )
 
 source "$ZSH/oh-my-zsh.sh"
+
+# Kitty does not automatically inject its Zsh integration into shells started
+# inside tmux. Load the bundled integration there so prompts are redrawn cleanly
+# when a pane is resized, while preserving the configured cursor behavior.
+if [[ -n $TMUX && -n $KITTY_INSTALLATION_DIR ]]; then
+  export KITTY_SHELL_INTEGRATION="no-cursor"
+  autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+  kitty-integration
+  unfunction kitty-integration
+fi
+
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Initialize zoxide after Oh My Zsh so shell completion is available.
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
+
+
+# -----------------------------------------------------------------------------
+# Prompt
+# -----------------------------------------------------------------------------
+
+# Keep the two-line Powerlevel10k-inspired layout without loading a theme:
+# directory and Git status on the first line, input and RPROMPT on the second.
+autoload -Uz add-zsh-hook vcs_info
+zmodload zsh/datetime
+# Prompt values are assembled directly in precmd. Keeping PROMPT_SUBST disabled
+# prevents repository-controlled text, such as a branch name, from being
+# evaluated as shell code during prompt rendering.
+unsetopt PROMPT_SUBST
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr ' +'
+zstyle ':vcs_info:git:*' unstagedstr ' !'
+zstyle ':vcs_info:git:*' formats ' %b%c%u'
+zstyle ':vcs_info:git:*' actionformats ' %b|%a%c%u'
+
+typeset -gF DOTFILES_PROMPT_COMMAND_STARTED_AT=0
+
+function _dotfiles_prompt_preexec() {
+  DOTFILES_PROMPT_COMMAND_STARTED_AT=$EPOCHREALTIME
+}
+
+function _dotfiles_prompt_precmd() {
+  vcs_info
+
+  local directory=${(%):-%~}
+  local git_status=$vcs_info_msg_0_
+  local duration=''
+
+  directory=${(V)directory}
+  git_status=${(V)git_status}
+
+  if (( DOTFILES_PROMPT_COMMAND_STARTED_AT > 0 )); then
+    local -F elapsed=$(( EPOCHREALTIME - DOTFILES_PROMPT_COMMAND_STARTED_AT ))
+    (( elapsed >= 3 )) && duration="took ${elapsed%.*}s"
+  fi
+  DOTFILES_PROMPT_COMMAND_STARTED_AT=0
+
+  local left="%F{#565F89}╭─%f %F{#7AA2F7}%f %F{#C0CAF5}${directory//\%/%%}%f"
+  [[ -n $git_status ]] && left+=" %F{#9ECE6A}on ${git_status//\%/%%}%f"
+
+  local right=''
+  [[ -n $duration ]] && right+="%F{#E0AF68}${duration}%f  "
+  right+='%F{#BB9AF7}at %D{%H:%M}%f'
+
+  PROMPT="${left}"$'\n''%F{#565F89}╰─%f %(?.%F{#7DCFFF}❯.%F{#F7768E}❯)%f '
+  RPROMPT=$right
+}
+
+add-zsh-hook -d preexec _dotfiles_prompt_preexec 2>/dev/null
+add-zsh-hook -d precmd _dotfiles_prompt_precmd 2>/dev/null
+add-zsh-hook preexec _dotfiles_prompt_preexec
+add-zsh-hook precmd _dotfiles_prompt_precmd
 
 
 # -----------------------------------------------------------------------------
@@ -188,7 +252,3 @@ function y() {
 	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 	command rm -f -- "$tmp"
 }
-
-source "$(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme"
-
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
